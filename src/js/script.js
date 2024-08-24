@@ -86,7 +86,56 @@ $(document).ready(function () {
         });
     });
 
-    $('.button_submit').on('click', function() {
-        $('.overlay, #thank').fadeIn('slow');
+    
+
+
+    function valideForms(form){
+        $(form).validate({
+            rules: {
+                name: "required",
+                phone: "required",
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                name: "Пожалуйста,введите свое имя",
+                phone: "Пожалуйста,введите свой номер телефона",
+                email: {
+                    required: "Пожалуйста,введите свой email",
+                    email: "Ваш email должен быть в формате 'name@domain.com'"
+                }
+            }
+        });
+    };
+
+
+    valideForms("#consultation-form")
+    valideForms("#consultation form")
+    valideForms("#order form")
+
+    $('input[name=phone]').mask("+7 (999) 999-99-99");
+
+    $('form').submit(function(e) {
+        e.preventDefault();
+ 
+        if (!$(this).valid()) {
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "mailer/smart.php",
+            data: $(this).serialize()
+        }).done(function() {
+            $(this).find("input").val("");
+            $('#consultation, #order').fadeOut('slow');
+            $('.overlay, #thank').fadeIn('slow');
+
+            
+            $('form').trigger('reset');
+        });
+        return false;
     });
 });
