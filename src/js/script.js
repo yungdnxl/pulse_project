@@ -138,4 +138,21 @@ $(document).ready(function () {
         });
         return false;
     });
+
+    //smooth scroll and pageup
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 1600) {
+            $(".pageup").fadeIn('slow');
+        } else {
+            $(".pageup").fadeOut('slow'); 
+        }
+    });
+    $("a[hrefˆ='#']").click(function() {
+        const _href = $(this).attr("href");
+        $("html, body").animate({scrollTop: $(_href).offset().top+"px"});
+        return false;
+    });
+
+    
+    new WOW().init();
 });

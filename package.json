@@ -20,7 +20,9 @@
     "sass": "^1.77.6"
   },
   "dependencies": {
+    "animate.css": "^4.1.1",
     "del": "^6.1.1",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "wow.js": "^1.2.2"
   }
 }
