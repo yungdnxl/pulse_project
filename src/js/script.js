@@ -63,7 +63,7 @@ $(document).ready(function () {
             $(".catalog-item__content")
             .eq(i)
             .toggleClass("catalog-item__content_active");
-            $(".catalog-item__list").eq(i).toggleClass("catalog-item__list_active");
+            $(".catalog-item__list-wrapper").eq(i).toggleClass("catalog-item__list-wrapper_active");
         });
         });
     }
@@ -147,7 +147,7 @@ $(document).ready(function () {
             $(".pageup").fadeOut('slow'); 
         }
     });
-    $("a[hrefˆ='#']").click(function() {
+    $("a[href=#up]").click(function() {
         const _href = $(this).attr("href");
         $("html, body").animate({scrollTop: $(_href).offset().top+"px"});
         return false;
