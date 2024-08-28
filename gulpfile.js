@@ -5,17 +5,16 @@ import * as dartSass from 'sass';
 import gulpSass from 'gulp-sass';
 const sass = gulpSass(dartSass);
 import cleanCSS from 'gulp-clean-css';
-//const cleanCSS = require('gulp-clean-css');
-
+import imagemin from 'gulp-imagemin';
+import htmlmin from 'gulp-htmlmin';
 import autoprefixer from 'gulp-autoprefixer';
-//const rename = require("gulp-rename");
 import rename from 'gulp-rename';
 
 gulp.task('server', function() {
 
     browserSync({
         server: {
-            baseDir: "src"
+            baseDir: "dist"
         }
     });
 
@@ -30,12 +29,52 @@ gulp.task('styles', function() {
 			cascade: false
 		}))
         .pipe(cleanCSS({compatibility: 'ie8'}))
-        .pipe(gulp.dest("src/css"))
+        .pipe(gulp.dest("dist/css"))
         .pipe(browserSync.stream());
 });
 
 gulp.task('watch', function() {
-    gulp.watch("src/sass/**/*.+(scss|sass)", gulp.parallel('styles'));
-})
+    gulp.watch("src/sass/**/*.+(scss|sass|css)", gulp.parallel('styles'));
+    gulp.watch("src/*.html").on('change', gulp.parallel('html'));
+});
 
-gulp.task('default', gulp.parallel('watch', 'server', 'styles'));
+gulp.task('html', function() {
+    return gulp.src("src/*html")
+        .pipe(htmlmin({ collapseWhitespace: true }))
+        .pipe(gulp.dest("dist/"));
+});
+
+gulp.task('scripts', function() {
+    return gulp.src("src/js/**/*.js")
+        .pipe(gulp.dest("dist/js"));
+});
+
+gulp.task('fonts', function() {
+    return gulp.src("src/fonts/**/*", {
+        encoding: false
+    })
+        .pipe(gulp.dest("dist/fonts"));
+});
+
+gulp.task('icons', function() {
+    return gulp.src("src/icons/**/*", {
+        encoding: false
+    })
+        .pipe(gulp.dest("dist/icons"));
+});
+
+gulp.task('mailer', function() {
+    return gulp.src("src/mailer/**/*")
+        .pipe(gulp.dest("dist/mailer"));
+});
+
+gulp.task('images', function() {
+    return gulp.src("src/img/**/*", {
+        encoding: false
+    })
+        .pipe(imagemin())
+        .pipe(gulp.dest("dist/img"));
+});
+
+
+gulp.task('default', gulp.parallel('watch', 'server', 'styles', 'scripts', 'fonts', 'icons', 'mailer', 'images', 'html'));
