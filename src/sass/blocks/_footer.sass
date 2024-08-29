@@ -22,7 +22,7 @@
         font-weight: 700
         margin-bottom: 36px
         &:hover
-            text-decoration: underline
+            text-shadow: -1px -1px 30px black
     &__icons
         display: flex
         justify-content: space-between
@@ -36,6 +36,9 @@
         height: 50px
         border: 2px solid #fff
         border-radius: 100%
+        &_animated
+            &:hover
+                animation: bounce 1.5s
         img
             height: 25px
 
